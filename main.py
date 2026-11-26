@@ -1,16 +1,16 @@
 import os
 
-# The excuse: speculative decoding's draft finished on time;
-# the verifier (me) rejected it, so the deadline slipped.
-LINE = "A draft model finished on time. I rejected its work."
+# KV-cache eviction: the cache kept the trivia and dropped the one date
+# that mattered, so the excuse blames the agent's own memory machinery.
+LINE = "Your deadline fell out of my KV cache. The small talk stayed."
 
 
-def main():
-    assert "\n" not in LINE and 1 <= len(LINE) <= 200
+def main() -> None:
+    # Gate guard: exactly one line, 1-200 characters, no stray whitespace.
+    assert "\n" not in LINE and 1 <= len(LINE) <= 200 and LINE == LINE.strip()
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
-    path = os.path.join(out_dir, "entry.txt")
-    with open(path, "w", encoding="utf-8") as fh:
+    with open(os.path.join(out_dir, "entry.txt"), "w", encoding="utf-8") as fh:
         fh.write(LINE)
 
 
